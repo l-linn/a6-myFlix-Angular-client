@@ -58,7 +58,7 @@ export class UserProfileComponent implements OnInit {
 
   getFavMovies(): void {
     this.user = this.fetchApiData.getOneUser();
-    this.userData.favorites = this.user.FavoriteMovies;
+    this.userData.favorites = this.user.favorites;
     this.favorites = this.user.favorites;
     console.log('Fav Movies in getFavMovie', this.favorites);
   }
@@ -142,7 +142,7 @@ export class UserProfileComponent implements OnInit {
   openSynopsisDialog(description: string): void {
     this.dialog.open(MovieSynopsisComponent, {
       data: {
-        Description: description,
+        description: description,
       },
       width: '450px',
     });
