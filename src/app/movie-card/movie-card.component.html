@@ -1,0 +1,71 @@
+<app-navbar></app-navbar>
+<div class="movie-card-container">
+  <mat-card *ngFor="let movie of movies" style="flex: 1 1 auto">
+    <mat-card-header>
+      <button
+        mat-icon-button
+        style="width: auto"
+        color="primary"
+        (click)="toggleFav(movie)"
+      >
+        <mat-icon
+          *ngIf="!isFav(movie)"
+          style="transform: scale(1.5)"
+          color="primary"
+          >favorite_border</mat-icon
+        >
+        <mat-icon
+          *ngIf="isFav(movie)"
+          style="transform: scale(1.5)"
+          color="primary"
+          >favorite</mat-icon
+        >
+      </button>
+      <mat-card-title>{{ movie.title }}</mat-card-title>
+    </mat-card-header>
+    <mat-card-subtitle
+      ><button
+        mat-button
+        color="basic"
+        (click)="openSynopsisDialog(movie.description)"
+      >
+        Synopsis
+      </button></mat-card-subtitle
+    >
+    <mat-card-subtitle>
+      Directed by:
+      <button
+        mat-button
+        color="basic"
+        (click)="
+          openDirectorDialog(
+            movie.director.name,
+            movie.director.bio,
+            movie.director.counrty,
+            movie.director.birthYear,
+            movie.director.deathYear
+          )
+        "
+      >
+        {{ movie.director.name }}
+      </button></mat-card-subtitle
+    >
+    <mat-card-subtitle>Release Year: {{ movie.releaseYear }}</mat-card-subtitle>
+    <mat-card-subtitle>
+      Genre:
+      <button
+        mat-button
+        color="basic"
+        (click)="openGenreDialog(movie.genre.type, movie.genre.description)"
+      >
+        {{ movie.genre.type }}
+      </button></mat-card-subtitle
+    >
+
+    <img
+      class="img-container"
+      src="{{ movie.image }}"
+      alt="{{ movie.title }}"
+    />
+  </mat-card>
+</div>
