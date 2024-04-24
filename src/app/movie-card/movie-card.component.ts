@@ -96,12 +96,17 @@ export class MovieCardComponent implements OnInit {
   }
 
   isFav(movie: any): boolean {
-    const MovieID = movie._id;
-    if (this.favorites.some((movie) => movie === MovieID)) {
+    // const MovieID = movie._id;
+    if (this.favorites.includes(movie._id)) {
       return true;
     } else {
       return false;
     }
+    // if (this.favorites.some((movie) => movie === MovieID)) {
+    //   return true;
+    // } else {
+    //   return false;
+    // }
   }
 
   toggleFav(movie: any): void {
