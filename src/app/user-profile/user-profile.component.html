@@ -82,7 +82,7 @@
         <p>You have no favorite movies.</p>
       </div>
     </div>
-    <!-- Favorite Movies Cards Start -->
+
     <div class="movie-card-container">
       <mat-card *ngFor="let movie of favorites" class="movie-card">
         <div class="img-container">
@@ -90,14 +90,14 @@
           <mat-card-actions class="actions-fav">
             <button
               mat-button
-              color="primary"
+              color="warn"
               (click)="openSynopsisDialog(movie.description)"
             >
               Synopsis
             </button>
             <button
               mat-button
-              color="primary"
+              color="warn"
               (click)="
                 openGenreDialog(movie.genre.type, movie.genre.description)
               "
@@ -106,7 +106,7 @@
             </button>
             <button
               mat-button
-              color="primary"
+              color="warn"
               (click)="
                 openDirectorDialog(
                   movie.director.name,
@@ -122,10 +122,10 @@
             <button
               mat-icon-button
               style="width: auto"
-              color="primary"
+              color="warn"
               (click)="deleteFavMovies(movie)"
             >
-              <mat-icon style="transform: scale(1.5)" color="primary"
+              <mat-icon style="transform: scale(1.5)" color="warn"
                 >favorite</mat-icon
               >
             </button>
@@ -138,6 +138,5 @@
         </mat-card-header>
       </mat-card>
     </div>
-    <!-- Favorite Movies Cards End -->
   </div>
 </div>

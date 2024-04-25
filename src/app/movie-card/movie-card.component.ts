@@ -20,7 +20,6 @@ export class MovieCardComponent implements OnInit {
   user = JSON.parse(localStorage.getItem('user') || '');
   userData = { username: '', favorites: [] };
   favorites: any[] = [];
-  isFavMovie: boolean = false;
 
   constructor(
     public fetchApiData: FetchApiDataService,
@@ -80,28 +79,24 @@ export class MovieCardComponent implements OnInit {
   }
 
   getFavMovies(): void {
-    this.fetchApiData.getOneUser().subscribe(
-      (resp: any) => {
-        if (resp.user && resp.user.favorites) {
-          this.favorites = resp.user.favorites;
-        } else {
-          this.favorites = []; // Set an empty array if data is not available
-        }
-      },
-      (error: any) => {
-        console.error('Error fetching user data:', error);
-        this.favorites = []; // Set an empty array on error as well
-      }
-    );
+    let user = localStorage.getItem('user');
+    if (user) {
+      let parsedUser = JSON.parse(user);
+
+      this.userData.favorites = parsedUser.favorites;
+      this.favorites = parsedUser.favorites;
+    }
+    console.log('Favorite Movies:', this.favorites);
   }
 
   isFav(movie: any): boolean {
-    const MovieID = movie._id;
-    if (this.favorites.some((movie) => movie === MovieID)) {
-      return true;
-    } else {
-      return false;
-    }
+    return this.favorites.includes(movie._id);
+    // const MovieID = movie._id;
+    // if (this.favorites.some((movie) => movie == MovieID)) {
+    //   return true;
+    // } else {
+    //   return false;
+    // }
   }
 
   toggleFav(movie: any): void {

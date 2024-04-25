@@ -71,7 +71,34 @@ export class UserProfileComponent implements OnInit {
       return false;
     }
   }
+  toggleFav(movie: any): void {
+    console.log('toggleFav called with movie:', movie);
+    const isFavorite = this.isFav(movie);
+    console.log('isFavorite:', isFavorite);
+    isFavorite ? this.deleteFavMovies(movie) : this.addFavMovies(movie);
+  }
 
+  addFavMovies(movie: any): void {
+    console.log('addFavMovies called with movie:', movie);
+    let user = localStorage.getItem('user');
+    if (user) {
+      let parsedUser = JSON.parse(user);
+      console.log('user:', parsedUser);
+
+      this.fetchApiData.addfavoriteMovies(movie._id).subscribe((Resp) => {
+        console.log('server response:', Resp);
+        localStorage.setItem('user', JSON.stringify(Resp));
+        this.getFavMovies();
+        this.snackBar.open(
+          `${movie.title} has been added to your favorites`,
+          'OK',
+          {
+            duration: 3000,
+          }
+        );
+      });
+    }
+  }
   updateUser(): void {
     this.fetchApiData.editUser(this.userData).subscribe(
       (result) => {
@@ -149,15 +176,20 @@ export class UserProfileComponent implements OnInit {
   }
 
   deleteFavMovies(movie: any): void {
-    this.user = this.fetchApiData.getOneUser();
-    this.userData.username = this.user.username;
-    this.fetchApiData.deleteFavoriteMovie(movie).subscribe((result) => {
-      localStorage.setItem('user', JSON.stringify(result));
-      this.getFavMovies();
-      this.getProfile();
-      this.snackBar.open('Movie has been deleted from your favorites!', 'OK', {
-        duration: 3000,
+    let user = localStorage.getItem('user');
+    if (user) {
+      let parsedUser = JSON.parse(user);
+      this.fetchApiData.deleteFavoriteMovie(movie._id).subscribe((Resp) => {
+        localStorage.setItem('user', JSON.stringify(Resp));
+        this.getFavMovies();
+        this.snackBar.open(
+          `${movie.title} has been removed from your favorites`,
+          'OK',
+          {
+            duration: 3000,
+          }
+        );
       });
-    });
+    }
   }
 }

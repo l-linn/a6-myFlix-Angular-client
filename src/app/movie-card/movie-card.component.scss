@@ -6,8 +6,7 @@
 
 .movie-card-container {
   display: flex;
-  padding: 10px;
-  margin-top: 11vh;
+  flex-wrap: wrap;
 }
 
 .movie-card {
