@@ -10,9 +10,9 @@
 }
 
 .movie-card {
-  margin: 15px;
-  width: 350px;
-  height: 550px;
+  margin: 10px;
+  width: 200px;
+  height: auto;
 }
 
 .img-container {
@@ -25,15 +25,4 @@
   height: 100%;
   object-fit: cover;
   object-position: 100% 0;
-}
-
-.card-header {
-  margin-bottom: 5px;
-  height: 20%;
-  align-items: center;
-}
-
-.card-title {
-  font-size: 25px;
-  margin-bottom: 10px;
 }
