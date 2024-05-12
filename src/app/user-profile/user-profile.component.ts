@@ -12,20 +12,34 @@ import { FetchApiDataService } from '../fetch-api-data.service';
 
 // Import to display notifications back to the user
 import { MatSnackBar } from '@angular/material/snack-bar';
-
+/**
+ * UserProfileComponent is a component that handles user profile related operations.
+ * It allows users to view and update their profile, view their favorite movies, add or remove movies from their favorites, and delete their account.
+ * It also provides dialogues for viewing genre, director, and movie synopsis information.
+ */
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
   styleUrls: ['./user-profile.component.scss'],
 })
 export class UserProfileComponent implements OnInit {
+  /**
+   * Input decorator is used to create custom properties for the UserProfileComponent which can be binded in the parent component.
+   */
   @Input() userData = { username: '', email: '', birthday: '', favorites: [] };
   formUserData = { username: '', email: '', birthday: '', favorites: [] };
 
+  /**
+   * User and movies are used to store the user's profile and movies data respectively.
+   */
   user: any = {};
   movies: any[] = [];
   favorites: any[] = [];
 
+  /**
+   * Constructor for the UserProfileComponent.
+   * It injects the FetchApiDataService, MatDialog, MatSnackBar, and Router services.
+   */
   constructor(
     public fetchApiData: FetchApiDataService,
     public snackBar: MatSnackBar,
@@ -33,11 +47,17 @@ export class UserProfileComponent implements OnInit {
     public dialog: MatDialog
   ) {}
 
+  /**
+   * ngOnInit is a lifecycle hook that is called after Angular has initialized all data-bound properties of a directive.
+   */
   ngOnInit(): void {
     this.getProfile();
     this.getFavMovies();
   }
 
+  /**
+   * getProfile method fetches the user's profile information and favorite movies.
+   */
   getProfile(): void {
     this.fetchApiData.getOneUser().subscribe((response) => {
       console.log('response:', response);
@@ -56,6 +76,10 @@ export class UserProfileComponent implements OnInit {
     });
   }
 
+  /**
+   * Function to get user's favorite movies
+   * @returns user's favorite movies
+   */
   getFavMovies(): void {
     this.user = this.fetchApiData.getOneUser();
     this.userData.favorites = this.user.favorites;
@@ -63,6 +87,9 @@ export class UserProfileComponent implements OnInit {
     console.log('Fav Movies in getFavMovie', this.favorites);
   }
 
+  /**
+   * isFav method checks if a movie is in the user's favorite movies list.
+   */
   isFav(movie: any): any {
     const MovieID = movie._id;
     if (this.favorites.some((movie) => movie === MovieID)) {
@@ -71,6 +98,10 @@ export class UserProfileComponent implements OnInit {
       return false;
     }
   }
+
+  /**
+   * toggleFav method adds or removes a movie from the user's favorite movies list.
+   */
   toggleFav(movie: any): void {
     console.log('toggleFav called with movie:', movie);
     const isFavorite = this.isFav(movie);
@@ -78,6 +109,9 @@ export class UserProfileComponent implements OnInit {
     isFavorite ? this.deleteFavMovies(movie) : this.addFavMovies(movie);
   }
 
+  /**
+   * addFavMovies method adds a movie to the user's favorite movies list.
+   */
   addFavMovies(movie: any): void {
     console.log('addFavMovies called with movie:', movie);
     let user = localStorage.getItem('user');
@@ -99,6 +133,10 @@ export class UserProfileComponent implements OnInit {
       });
     }
   }
+
+  /**
+   * updateUser method updates the user's profile information.
+   */
   updateUser(): void {
     this.fetchApiData.editUser(this.userData).subscribe(
       (result) => {
@@ -117,6 +155,9 @@ export class UserProfileComponent implements OnInit {
     );
   }
 
+  /**
+   * deleteUser method deletes the user's account.
+   */
   deleteUser(): void {
     this.router.navigate(['welcome']).then(() => {
       localStorage.clear();
@@ -129,6 +170,10 @@ export class UserProfileComponent implements OnInit {
     });
   }
 
+  /**
+   * Function to get all movies from the database
+   * @returns all movies
+   */
   getMovies(): void {
     this.fetchApiData.getAllMovies().subscribe((resp: any) => {
       this.movies = resp;
@@ -137,6 +182,9 @@ export class UserProfileComponent implements OnInit {
     });
   }
 
+  /**
+   * openGenreDialog, openDirectorDialog, and openSynopsisDialog methods open dialogues for viewing genre, director, and movie synopsis information respectively.
+   */
   openDirectorDialog(
     name: string,
     bio: string,
@@ -175,6 +223,9 @@ export class UserProfileComponent implements OnInit {
     });
   }
 
+  /**
+   * deleteFavMovies method removes a movie from the user's favorite movies list.
+   */
   deleteFavMovies(movie: any): void {
     let user = localStorage.getItem('user');
     if (user) {

@@ -102,7 +102,6 @@ export class MovieCardComponent implements OnInit {
   }
   /**
    * Function to open the synopsis dialog
-   * @param title - The title of the movie
    * @param description - The description of the movie
    */
   openSynopsisDialog(description: string): void {
